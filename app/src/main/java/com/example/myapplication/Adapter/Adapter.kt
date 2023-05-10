@@ -4,11 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Recycler
+import com.example.contact.databinding.ContactItemBinding
+import com.example.myapplication.DB.Entity.ContactEn
 import com.example.myapplication.User.User
-import com.example.myapplication.databinding.ContactItemBinding
 
-class Adapter(var list:MutableList<User>):RecyclerView.Adapter<Adapter.MyHolder>() {
-    class MyHolder(var binding:ContactItemBinding):RecyclerView.ViewHolder(binding.root){
+class Adapter(var list: List<ContactEn>):RecyclerView.Adapter<Adapter.MyHolder>() {
+    class MyHolder(var binding: ContactItemBinding):RecyclerView.ViewHolder(binding.root){
         var name = binding.userName
         var number = binding.userNumber
     }

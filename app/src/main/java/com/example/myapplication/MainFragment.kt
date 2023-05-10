@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.contact.R
+import com.example.contact.databinding.FragmentMainBinding
+import com.example.myapplication.DB.AppDatabase.AppDatabase
+import com.example.myapplication.User.User
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -13,6 +17,10 @@ private const val ARG_PARAM2 = "param2"
 class MainFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
+    val appDatabase: AppDatabase by lazy {
+        AppDatabase.getInstanse(requireContext())
+    }
+    var user_list = mutableListOf<User>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,10 +34,18 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main, container, false)
-    }
+        val binding = FragmentMainBinding.inflate(inflater,container,false)
 
+        val db = appDatabase.getContactDao().getAll()
+        val adapter = com.example.myapplication.Adapter.Adapter(db)
+        binding.contactList.adapter = adapter
+
+        binding.addContact.setOnClickListener {
+            parentFragmentManager.beginTransaction().replace(R.id.main_activity,Add_Contact()).commit()
+        }
+
+        return binding.root
+    }
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
@@ -39,5 +55,11 @@ class MainFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    fun add_list():MutableList<User>{
+
+
+        return user_list
     }
 }
